@@ -10,10 +10,7 @@ const ProductPcsSchema = new mongoose.Schema({
         required:true,
         unique:true
     },
-    avatar:{
-        type : String,
-        default:"https://cdn.pixabay.com/photo/2023/06/05/17/19/shopping-8042865_1280.png"
-    },
+   
     productType:{
         type: String,
         required:true
@@ -46,6 +43,12 @@ const ProductPcsSchema = new mongoose.Schema({
         type:String,
         required: true
         
+    },tanglishName :{
+        type:String,
+        required: true
+    },MRP:{
+        type:String,
+        required: true
     }
 
 },{timestamps : true})

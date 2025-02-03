@@ -5,7 +5,7 @@ import uniqid from 'uniqid'
 
 const createProduct = async(req,res,next)=>{
     try {
-        let {productName,productCode,productType,createBy,productPrice,productCost,stockQuantity,qantityType,unitValue} = req.body
+        let {productName,productCode,productType,createBy,productPrice,productCost,stockQuantity,qantityType,unitValue,tanglishName,MRP} = req.body
         let isProductCode = await ProductPcs.find({productCode});
         // console.log(req.body)
         if(isProductCode.length  >0 ) return next(errorHandler(401,'ProductCode already exist'))
@@ -13,7 +13,7 @@ const createProduct = async(req,res,next)=>{
         if(!productCode){
             productCode = productBarCodeId
         }
-        let product = new ProductPcs({productName,productCode,productType,createBy,productPrice,productCost,stockQuantity,qantityType,unitValue})
+        let product = new ProductPcs({productName,productCode,productType,createBy,productPrice,productCost,stockQuantity,qantityType,unitValue,tanglishName,MRP})
 
         
         await product.save()
