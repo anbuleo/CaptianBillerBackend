@@ -3,6 +3,8 @@ import cors from 'cors'
 import bodyparser from 'body-parser';
 import env from 'dotenv';
 import router from './src/routes/index.js'
+import cron from 'node-cron'
+import billController from './src/controllers/saleandprint.controller.js'
 
 env.config();
 
@@ -17,6 +19,10 @@ app.use(cors())
 let PORT = process.env.PORT;
 
 app.use('/api',router)
+cron.schedule('0 0 1 1,7 *', async () => {
+    console.log('Running balance sheet reset process...');
+    await billController.resetBalanceSheet();
+});
 
 
 app.listen(PORT, ()=>console.log(`App listening ${PORT}`))

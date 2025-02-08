@@ -8,7 +8,7 @@ const BillSchema = new mongoose.Schema({
     customerId :{
         type: mongoose.Schema.Types.ObjectId,
         ref:"user",
-        default:'customer'
+        default:null
     },
     customerMobile : {
         type : String,
@@ -30,45 +30,20 @@ const BillSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    billDate : {
-        type : Date,
-        required : true
-    },
     products : {
         type : Array,
         required : true
     },
-    status : {
-        type : String,
-        required : true
-    },
-    billNumber : {
-        type : String,
-        required : true,
-        unique : true
-    },
+    
+    
     paymentType : {
         type : String,
         required : true
-    },
-    paymentDate : {
-        type : Date,
-        required : true
-    },
-    paymentStatus : {
-        type : String,
-        required : true
-    },
-    paymentAmount : {
-        type : Number,
-        required : true
-    },
+    }    
+    
    
-    paymentNote : {
-        type : String,
-        default : null
-    }
-})
+   
+}, { timestamps: true })
 const Bill = mongoose.model('bill',BillSchema)   
 
 export default Bill
