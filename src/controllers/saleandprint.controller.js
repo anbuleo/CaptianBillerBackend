@@ -11,8 +11,7 @@ import BlSheet from "../models/balanceSheet.js"
 env.config()
 
 
-let url = process.env.SMS_URL
-let API = process.env.API_KEY_SMS
+
 
 
 
