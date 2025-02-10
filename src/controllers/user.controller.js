@@ -30,6 +30,63 @@ const createUser = async(req,res,next) =>{
     }
 }
 
+const getuserByadmin = async(req,res,next)=>{
+    try {
+        let {id} = req.params
+        let admin = await User.findById({_id:id})
+        if(admin.role !=='admin') return errorHandler(401,'admin only access')
+
+            let user = await User.find()
+
+            res.status(200).json({
+                message:'user updated',
+                user
+            })
+    } catch (error) {
+        next(error)
+    }
+}
+const getuserbyId =async(req,res,next)=>{
+    try{
+        let {id} = req.params
+        let Adminid = req.user.id
+        let admin = await User.findById(Adminid)
+        if(admin.role !=='admin') return errorHandler(401,'admin only access')
+
+            let user = await User.findById(id)
+            if(!user)return errorHandler(402,'no user found')
+
+                res.status(200).json({
+                    user,
+                    message:'User Found'
+                })
+    }catch(error){
+        next(error)
+    }
+
+}
+
+const deleteUser  = async(req,res,next)=>{
+    try {
+        let {id} = req.params
+        // console.log(id)
+
+        let Adminid = req.user.id
+        let admin = await User.findById(Adminid)
+        if(admin.role !=='admin') return errorHandler(401,'admin only access')
+
+            let user = await User.findByIdAndDelete(id)
+
+            res.status(200).json({
+                message:'user deleted',
+              
+            })
+        
+    } catch (error) {
+        next(error)
+    }
+}
+
 const signin = async(req,res,next)=>{
     const {email,password} = req.body;
 
@@ -90,6 +147,27 @@ const google = async (req,res,next) => {
         next(error)
     }
 }
+const userApproval = async(req,res,next)=>{
+    try {
+        let {id} = req.params
+        let Adminid = req.user.id
+        let status = req.body
+        // console.log(status,id)
+        let admin = await User.findById(Adminid)
+        if(admin.role !=='admin') return errorHandler(401,'admin only access')
+
+            let user = await User.findByIdAndUpdate(id,status)
+            if(!user)return errorHandler(402,'no user found')
+
+                res.status(200).json({
+                    user,
+                    message:'User Found'
+                })
+        
+    } catch (error) {
+        next(error)
+    }
+}
 const signOut = async(req,res,next)=>{
 
     try {
@@ -105,5 +183,5 @@ export default {
     createUser,
     signin,
     google,
-    signOut
+    signOut,getuserByadmin,deleteUser,getuserbyId,userApproval
 }

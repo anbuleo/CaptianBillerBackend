@@ -1,7 +1,7 @@
 import Bill from "../models/billModel.js"
 import Credit from "../models/creadit.js"
 import Product from "../models/productmodel.js"
-import {sendSms} from '../common/message.js'
+
 import env from 'dotenv'
 import { errorHandler } from "../uitils/errorHandler.js"
 import DeleteBill from "../models/deletebilllogModel.js"
@@ -56,8 +56,16 @@ const saleBill = async(req,res,next)=>{
                        oldbalan.transactions.push({ type: 'purchase', amount:totalAmount });
                         await oldbalan.save();
                     }else {
-                        let balancesh = new BlSheet({customerId,totalPurchases:totalAmount,totalPayments:totalAmount,remainingBalance:totalAmount,transactions: [{ type: 'purchase', amount: totalAmount }]})
-                       await balancesh.save()
+                        if(paymentType==='online'||paymentType==='cash'){
+
+                            let balancesh = new BlSheet({customerId,totalPurchases:totalAmount,totalPayments:totalAmount,remainingBalance:0,transactions: [{ type: 'purchase', amount: totalAmount }]})
+                           await balancesh.save()
+                        }else{
+
+
+                            let balancesh = new BlSheet({customerId,totalPurchases:totalAmount,totalPayments:totalAmount,remainingBalance:totalAmount,transactions: [{ type: 'purchase', amount: totalAmount }]})
+                           await balancesh.save()
+                        }
                     }
             }
 
