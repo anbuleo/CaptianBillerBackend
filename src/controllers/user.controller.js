@@ -152,9 +152,11 @@ const userApproval = async(req,res,next)=>{
         let {id} = req.params
         let Adminid = req.user.id
         let status = req.body
+        if(!status) return errorHandler(402,'Status found')
         // console.log(status,id)
         let admin = await User.findById(Adminid)
         if(admin.role !=='admin') return errorHandler(401,'admin only access')
+            
 
             let user = await User.findByIdAndUpdate(id,status)
             if(!user)return errorHandler(402,'no user found')
