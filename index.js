@@ -13,12 +13,14 @@ env.config();
 const app = express()
 app.use(express.json())
 app.use(bodyparser.json())
-let urlFront = process.env.FrontEnd
+let urlFront = [process.env.FrontEnd]
+
 const corsOptions = {
-    credentials: true,
-    origin: [urlFront] // Whitelist the domains you want to allow
+    origin: urlFront, // Allow only specific origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific methods if needed
+  allowedHeaders: ['Content-Type', 'Authorization'],// Whitelist the domains you want to allow
 }
-app.use(cors({origin:urlFront}))
+app.use(cors(corsOptions))
 
 
 let PORT = process.env.PORT;
