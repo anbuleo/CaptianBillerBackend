@@ -18,7 +18,7 @@ const corsOptions = {
     credentials: true,
     origin: [urlFront] // Whitelist the domains you want to allow
 }
-app.use(cors(corsOptions))
+app.use(cors({origin:urlFront}))
 
 
 let PORT = process.env.PORT;
